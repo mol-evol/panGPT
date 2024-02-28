@@ -1,4 +1,4 @@
-README File for panGPT v0.02
+README File for panGPT v0.02 and panPrompt v0.01
 
 Developed by: James McInerney
 Website: [McInerney Lab](http://mcinerneylab.com/)
@@ -7,7 +7,13 @@ License: GNU General Public License v3.0
 ---
 
 Introduction
-panGPT is a Python program designed to train a transformer model on pangenomic presence-absence data. This README file aims to explain how to use the program and understand its various command-line options.
+panGPT is a Python program designed to train a transformer model on pangenomic presence-absence data.
+panPrompt is a python program that uses the model from panGPT to predict the next genes on the basis of a prompt.
+
+
+This README file aims to explain how to use the program and understand the various command-line options for both programs.
+
+First is panGPT
 
 Command-Line Options
 
@@ -89,6 +95,95 @@ Usage Notes
 - Monitor the output for messages about training progress and any possible issues.
 
 ---
+
+# Token Prediction with Simple Transformer Model program panPrompt
+
+## Overview
+This Python program carries out next token prediction using the Transformer model from panGPT. panPrompt takes a prompt file as input and then produces the next `n` tokens, as specified by the user.
+
+## Features
+- **Positional Encoding**: Implements positional encoding to inject sequence order information into the model.
+- **Transformer Model**: Uses a basic Transformer model architecture for sequence generation tasks.
+- **Token Prediction**: Functionality for predicting a sequence of tokens given an input prompt.
+
+## Requirements
+- Python 3.x
+- PyTorch
+- Tokenizers library
+- math library
+
+## Installation
+To set up the project environment:
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/mol-evol/panGPT.git
+
+2. pip install torch tokenizers
+
+Usage
+The program can be executed via the command line, allowing users to input a model checkpoint, tokenizer file, prompt file, and other parameters for token prediction.
+
+Execute the program from the command line using a prompt with this general format:
+
+python panPrompt.py --model_path "path/to/model_checkpoint.pth" \
+               --tokenizer_path "path/to/tokenizer.json" \
+               --prompt_path "path/to/prompt.txt" \
+               --num_tokens 50 \
+               --temperature 1.0 \
+               --embed_dim 256 \
+               --num_heads 8 \
+               --num_layers 4 \
+               --max_seq_length 256
+
+
+
+
+               ## Command Line Options
+
+               The script accepts the following command line arguments:
+
+               - `--model_path`: Path to the trained model checkpoint.
+                 - Usage: `--model_path "path/to/model_checkpoint.pth"`
+
+               - `--tokenizer_path`: Path to the tokenizer file.
+                 - Usage: `--tokenizer_path "path/to/tokenizer.json"`
+
+               - `--prompt_path`: Path to the text file containing the input prompt.
+                 - Usage: `--prompt_path "path/to/prompt.txt"`
+
+               - `--num_tokens`: Number of tokens to predict.
+                 - Usage: `--num_tokens 50`
+
+               - `--temperature`: Controls the randomness of predictions. Default is 1.0.
+                 - Usage: `--temperature 1.0`
+
+               - `--embed_dim`: Embedding dimension size. Default is 256.
+                 - Usage: `--embed_dim 256`
+
+               - `--num_heads`: Number of attention heads in the transformer. Default is 8.
+                 - Usage: `--num_heads 8`
+
+               - `--num_layers`: Number of layers in the transformer. Default is 4.
+                 - Usage: `--num_layers 4`
+
+               - `--max_seq_length`: Maximum length of the input sequences. Default is 256.
+                 - Usage: `--max_seq_length 256`
+
+
+for example to run the program using a given model, tokenizer and prompt you might use this command:
+
+python panPrompt.py --model_path "models/model.pth" \
+               --tokenizer_path "tokenizers/tokenizer_gpt_pangenome.json" \
+               --prompt_path "prompts/prompt.txt" \
+               --num_tokens 50
+
+In this case, you would have your model stored (in pytorch format) in a subdirectory called models, the pangenome-specific tokenizer stored in a subdirectory called tokenizers, and your prompt file is stored in a subdirectory called prompts. panPrompt.py takes these three files and uses them to make predictions about the next tokens - in this case you have asked for 50 tokens (protein-coding gene familes in this case).
+
+
+
+---
+
 
 The Obligatory Disclaimer
 This code is provided 'AS IS' without any warranties of any kind, including, but not limited to, its fitness for a particular purpose. The author disclaims all liability for any damages, direct or indirect, resulting from the use of this code.
