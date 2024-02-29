@@ -1,4 +1,4 @@
-# fixed_split_genomes.py
+# fixedSplits.py
 
 import argparse
 

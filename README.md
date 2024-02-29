@@ -271,6 +271,11 @@ group_12592 FtsZ frdA group_87657 atpH [...]
 ```
 The first line contains genome 1, the second line contains genome 2, etc.
 
+
+The accompanying file `inputPangenome.txt` is from Beavan and McInerney ([2024](https://www.pnas.org/doi/abs/10.1073/pnas.2304934120))
+
+
+
 #### Training model format
 
 The trained model is output in pytorch format. The checkpoint files store
@@ -313,4 +318,6 @@ For more information, visit the [McInerney Lab website](http://mcinerneylab.com/
 
 #### References:
 
-Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A.N., Kaiser, Ł. and Polosukhin, I., 2017. Attention is all you need. Advances in neural information processing systems, 30.
+Beavan, A. J. S., et al. (2024). "Contingency, repeatability, and predictability in the evolution of a prokaryotic pangenome." ***Proceedings of the National Academy of Sciences USA*** 121(1): e2304934120.
+
+Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A.N., Kaiser, Ł. and Polosukhin, I., 2017. "Attention is all you need". ***Advances in neural information processing systems***, 30.
