@@ -292,7 +292,10 @@ This means that you can restart the training run from the checkpoint file, in th
 ---
 ### Supplementary scripts
 
-I have provided two supplementary scripts that can be used to pre-process your data. In the event that you do not have the computational resources to train a model on complete genomes, you can split the data in two different ways.
+I have provided three supplementary scripts that can be used to pre-process your data (`fixedSplits.py` and `movingSplits.py`) or investigate it (`tokenFrequency.py
+`).
+
+In the event that you do not have the computational resources to train a model on complete genomes, you can split the data in two different ways.
 - Either you simply `split` each genome into chunks of fixed length, with each `chunk` being found on a separate line of the input file (this will result in a file of equal size to the original dataset), or
 - you can implement a moving window splitting, where `chunks` of genome are extracted into a new file, the program shifts along by a certain `shift` size and then writes the new `chunk` to file. This second option will produce a larger training dataset.
 
@@ -305,6 +308,34 @@ This will split each genome in the input dataset into chunks of length `512`. Yo
 python movingSplits.py path/to/your/pangenome.txt path/to/moving_output.txt 512 256
 ```
 In this case the input genomes are split into chunks of `512` gene names, with the chunks of gene names overlapping by `256` gene names.
+
+
+#### tokenFrequency
+You might need to install `matplotlib` and `pandas` if they are not already installed.
+Using conda:
+```bash
+conda install matplotlib pandas
+```
+
+Using pip
+```bash
+pip install matplotlib pandas
+```
+The program simply runs by issuing the command:
+
+```bash
+python tokenFrequency.py
+```
+
+The script begins by reading a pangenome dataset from a text file, where each line in the file represents a sequence of gene families. These gene families are assumed to be space-separated tokens.  It then processes the data to extract individual gene families (tokens) and computes the frequency of each token using Python's `collections.Counter`. This results in a count of how many times each gene family appears in the dataset.
+
+The gene family tokens are then sorted based on their frequency in descending order.
+The program allows the specification of a frequency threshold. It then identifies a cutoff point in the sorted list, which is the number of tokens that occur at least as frequently as this threshold. This can be useful for deciding the size of the vocabulary in further analyses, such as machine learning models where less frequent tokens might be discarded or replaced.
+
+To better understand the token distribution, the program visualizes the frequencies of the top `N` tokens (default is 70,000 or the total number of tokens if less than that) using a bar chart.
+The visualization is done using `matplotlib`, showing each token along the x-axis and its frequency on the y-axis. The x-axis labels (tokens) are rotated for readability.
+
+The program outputs a recommendation for the vocabulary cutoff size based on the frequency threshold. It displays a bar chart showing the frequency distribution of the top tokens.
 
 ---
 
