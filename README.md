@@ -5,14 +5,17 @@ Developed by: James McInerney
 Website: [McInerney Lab](http://mcinerneylab.com/)
 License: GNU General Public License v4.0
 
+### panGPT and panPrompt: Generative Pre-Trained Transformer for Large Pangenome Models (LPMs) from scratch.
+
 ---
-Introduction
-panGPT is a Python program designed to train a transformer model on pangenomic presence-absence data.
-panPrompt is a python program that uses the model from panGPT to predict the next genes on the basis of a prompt.
+#### Introduction
+<b>panGPT</b> is a Python program designed to train a transformer model on pangenomic presence-absence data.
 
-This README file aims to explain how to use the program and understand the various command-line options for both programs.
+<b>panPrompt</b> is a python program that uses the model from panGPT to predict the next genes on the basis of a prompt.
 
-### Requirements
+This <b>README</b> file aims to explain how to use the programs and understand their various command-line options.
+
+#### Requirements
 - Python 3.x
 - PyTorch
 - Tokenizers library
