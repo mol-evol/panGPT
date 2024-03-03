@@ -4,6 +4,7 @@
 Developed by: James McInerney
 Website: [McInerney Lab](http://mcinerneylab.com/)
 License: GNU General Public License v4.0
+NOTE: This is BETA software and may have bugs.
 
 ### panGPT and panPrompt: Generative Pre-Trained Transformer for Large Pangenome Models (LPMs) from scratch.
 
