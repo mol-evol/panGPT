@@ -1,9 +1,12 @@
 
 # README File for panGPT v0.02 and panPrompt v0.01 and supplementary scripts tokenFrequency.py, fixedSplits.py and movingSplits.py
 
+
 Developed by: James McInerney
 
 Website: [McInerney Lab](http://mcinerneylab.com/)
+
+Email: panGPTprogram@gmail.com
 
 License: GNU General Public License v4.0
 
