@@ -1,5 +1,5 @@
 
-# README File for panGPT v0.02 and panPrompt v0.01
+# README File for panGPT v0.02 and panPrompt v0.01 and supplementary scripts tokenFrequency.py, fixedSplits.py and movingSplits.py
 
 Developed by: James McInerney
 
