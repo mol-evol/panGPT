@@ -115,11 +115,11 @@ The input file format for the pangenome dataset is simply a set of gene names, w
 
 e.g.:
 
-`
-atpH group_44044 group_43943 group_43935 frdA [...]
-group_12592 FtsZ frdA group_87657 atpH [...]
-[...]
-`
+        `
+        atpH group_44044 group_43943 group_43935 frdA [...]
+        group_12592 FtsZ frdA group_87657 atpH [...]
+        [...]
+        `
 
 The first line contains genome 1, the second line contains genome 2, etc.
 
