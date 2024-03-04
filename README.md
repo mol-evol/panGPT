@@ -191,6 +191,26 @@ The LPM is then trained on these data, using the Transformers approach outlined 
 - Adjust the other parameters based on your dataset's characteristics and the computational resources available to you.
 - Monitor the output for messages about training progress and any possible issues.
 
+#### Example Usage
+An example use of `panGPT.py` for training a transformer model on pangenome presence-absence data, is given below:
+
+  ```bash
+  python panGPT.py --input_file "path/to/pangenome_file.txt" \
+                   --embed_dim 256 \
+                   --num_heads 8 \
+                   --num_layers 4 \
+                   --max_seq_length 256 \
+                   --batch_size 32 \
+                   --learning_rate 0.0001 \
+                   --weight_decay 1e-5 \
+                   --patience 5 \
+                   --min_delta 0.01 \
+                   --epochs 30 \
+                   --max_vocab_size 70000 \
+                   --model_save_path "path/to/model_checkpoint.pth" \
+                   --tokenizer_file "path/to/tokenizer.json"
+  ```
+
 ---
 
 ## Token Prediction with Simple Transformer Model program panPrompt
