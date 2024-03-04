@@ -110,6 +110,21 @@ panGPT implements a simple Transformer model with positional encoding that takes
 
 The LPM is then trained on these data, using the Transformers approach outlined in Vaswani et al., (2017).
 
+#### Input file format
+The input file format for the pangenome dataset is simply a set of gene names, with a single genome being on a single line.  The file can be easily generated from the output of programs such as [Roary](https://sanger-pathogens.github.io/Roary/).
+
+e.g.:
+
+`
+atpH group_44044 group_43943 group_43935 frdA [...]
+group_12592 FtsZ frdA group_87657 atpH [...]
+[...]
+`
+
+The first line contains genome 1, the second line contains genome 2, etc.
+
+
+The accompanying file `inputPangenome.txt` is from Beavan and McInerney ([2024](https://www.pnas.org/doi/abs/10.1073/pnas.2304934120))
 
 
 ## Command-Line Options
@@ -191,26 +206,6 @@ The LPM is then trained on these data, using the Transformers approach outlined 
 - Adjust the other parameters based on your dataset's characteristics and the computational resources available to you.
 - Monitor the output for messages about training progress and any possible issues.
 
-#### Example Usage
-An example use of `panGPT.py` for training a transformer model on pangenome presence-absence data, is given below:
-
-  ```bash
-  python panGPT.py --input_file "path/to/pangenome_file.txt" \
-                   --embed_dim 256 \
-                   --num_heads 8 \
-                   --num_layers 4 \
-                   --max_seq_length 256 \
-                   --batch_size 32 \
-                   --learning_rate 0.0001 \
-                   --weight_decay 1e-5 \
-                   --patience 5 \
-                   --min_delta 0.01 \
-                   --epochs 30 \
-                   --max_vocab_size 70000 \
-                   --model_save_path "path/to/model_checkpoint.pth" \
-                   --tokenizer_file "path/to/tokenizer.json"
-  ```
-
 ---
 
 ## Token Prediction with Simple Transformer Model program panPrompt
@@ -286,21 +281,6 @@ In this case, you would have your model stored (in pytorch format) in a subdirec
 
 ---
 ### Notes
-
-#### Input file format
-The input file format for the pangenome dataset is simply a set of gene names, with a single genome being on a single line.  The file can be easily generated from the output of programs such as [Roary](https://sanger-pathogens.github.io/Roary/).
-
-e.g.:
-```bash
-atpH group_44044 group_43943 group_43935 frdA [...]
-group_12592 FtsZ frdA group_87657 atpH [...]
-[...]
-```
-The first line contains genome 1, the second line contains genome 2, etc.
-
-
-The accompanying file `inputPangenome.txt` is from Beavan and McInerney ([2024](https://www.pnas.org/doi/abs/10.1073/pnas.2304934120))
-
 
 
 #### Training model format
