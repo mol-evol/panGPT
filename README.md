@@ -206,7 +206,7 @@ The accompanying file [`inputPangenome.txt`](https://github.com/mol-evol/panGPT/
 
 16. `--epochs`:
     - Type: Integer
-    - Default: 30
+    - Default: 50
     - Description: The maximum number of complete passes through the training dataset. The program will run for a maximum number of epochs, but if learning is not improving, then the early-stopping mechanism will stop the program before this limit is reached.
 
 17. `--max_vocab_size`:
