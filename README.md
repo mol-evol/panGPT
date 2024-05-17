@@ -124,7 +124,7 @@ e.g.:
 The first line contains genome 1, the second line contains genome 2, etc.
 
 
-The accompanying file [`inputPangenome.txt`](https://github.com/mol-evol/panGPT/blob/main/inputPangenome.txt) is from Beavan and McInerney ([2024](https://www.pnas.org/doi/abs/10.1073/pnas.2304934120)), but is unlikely a good training set, because the order of genes is not the same as their order in the original genomes.
+The accompanying file [`inputPangenomes.txt`](https://github.com/mol-evol/panGPT/blob/main/inputPangenomes.txt) is from Beavan and McInerney ([2024](https://www.pnas.org/doi/abs/10.1073/pnas.2304934120)).
 
 
 ## Command-Line Options
