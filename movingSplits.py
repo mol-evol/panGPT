@@ -1,5 +1,3 @@
-# movingSplits.py
-
 import argparse
 
 def moving_window_split(genome, window_size, shift_size):

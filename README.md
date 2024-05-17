@@ -1,5 +1,5 @@
 
-# README File for panGPT v0.02 and panPrompt v0.01 and supplementary scripts tokenFrequency.py, fixedSplits.py and movingSplits.py
+# README File for panGPT v0.10a and panPrompt v0.01 and supplementary scripts tokenFrequency.py, fixedSplits.py and movingSplits.py
 
 
 Developed by: James McInerney
@@ -124,7 +124,7 @@ e.g.:
 The first line contains genome 1, the second line contains genome 2, etc.
 
 
-The accompanying file [`inputPangenome.txt`](https://github.com/mol-evol/panGPT/blob/main/inputPangenome.txt) is from Beavan and McInerney ([2024](https://www.pnas.org/doi/abs/10.1073/pnas.2304934120))
+The accompanying file [`inputPangenome.txt`](https://github.com/mol-evol/panGPT/blob/main/inputPangenome.txt) is from Beavan and McInerney ([2024](https://www.pnas.org/doi/abs/10.1073/pnas.2304934120)), but is unlikely a good training set, because the order of genes is not the same as their order in the original genomes.
 
 
 ## Command-Line Options
@@ -134,70 +134,126 @@ The accompanying file [`inputPangenome.txt`](https://github.com/mol-evol/panGPT/
    - Required: Yes
    - Description: Path to the input file containing pangenome data. This file should have pangenomic data formatted with each line representing a genome, with each gene represented by its family name, and the order of the family names is the order in which they occur in the individual genomes. Because this particular program uses positional information, the order of the genes needs to be preserved.
 
-2. `--embed_dim`:
+2. `--model_type`:
+    - Type: String
+    - Default: "transformer"
+    - Description: Type of model architecture (transformer or reformer)
+
+3. `--longformer_attention_window`:
+    - Type: Integer
+    - Default: 512
+    - Description: Attention window size in the Longformer model. Not relevant for Transformer model
+
+4. `--embed_dim`:
    - Type: Integer
    - Default: 256
    - Description: The dimension of the embedding layer in the transformer model. Think of this as setting the size of the feature set that the model uses to understand the data. I think of it as the number of "learned features" that might explain the context for the presence or absence of the focal gene. Genes with similar requirements for their presence or absence in a genome would have similar vector representations. Larger embedding sizes can capture more complex patterns but at the cost of higher computational requirements and the risk of overfitting. Smaller sizes are computationally efficient but might not capture the nuances in the data. These embedding dimensions are learned during training and are not manually entered features.
 
-3. `--num_heads`:
+5. `--num_heads`:
    - Type: Integer
    - Default: 8
    - Description: The number of attention heads in the transformer model. Each head helps the model to focus on different parts of the input data. For example, if you set an embedding size of `512` and num_heads is set to `8`, each head would operate on a 64-dimensional space (`512 / 8`). Each head independently attends to the input sequence, and their outputs are then concatenated and linearly transformed into the expected output dimension.
 
-4. `--num_layers`:
+6. `--num_layers`:
    - Type: Integer
    - Default: 4
    - Description: The number of layers that make a stack in the transformer model. More layers can potentially lead to a deeper understanding of the data but may require more computational resources. Each layer in a Transformer typically consists of a multi-head self-attention mechanism and a position-wise feed-forward network. When you stack multiple such layers on top of each other the output of one layer becomes the input to the next layer.
 
-5. `--max_seq_length`:
+7. `--max_seq_length`:
    - Type: Integer
    - Default: 256
    - Description: The maximum length of sequences that the model will process. Sequences longer than this will be truncated.
 
-6. `--batch_size`:
+8. `--batch_size`:
    - Type: Integer
    - Default: 32
-   - Description: The number of sequences processed at one time during training and validation. Larger batch sizes can speed up training but require more memory.
+   - Description: The number of sequences processed at one time during training and validation. Larger batch sizes can speed up training but require more memory, smaller batch sizes introduce more stochasticity and might help prevent overfitting, at the cost of slower training times.
 
-7. `--learning_rate`:
+9. `--model_dropout_rate`:
+    - Type: Float
+    - Default: 0.1
+    - Description: The dropout rate is the probability of a neuron being dropped out during training. Dropout is a regularization technique where randomly selected neurons are ignored during training. They are "dropped-out" randomly. Dropout helps prevent overfitting by introducing noise in the network, forcing nodes in the network to probabilistically take on more or less responsibility for the inputs. A value of 0.1 means there is a 10% chance of a neuron being dropped out during each training iteration.
+
+10. `--learning_rate`:
    - Type: Float
    - Default: 0.0001
    - Description: The learning rate for the optimizer. This sets how much the model adjusts its weights in response to the estimated error each time the model weights are updated.
 
-8. `--weight_decay`:
+11. `--lr_scheduler_factor`:
+    - Type: Float
+    - Defauly: 0.5
+    - Description: Factor by which the learning rate will be reduced by the learning rate scheduler (i.e. if triggered, the learning rate is multiplied by this factor).
+
+12. `--lr_patience`:
+   - Type: Integer
+   - Default: 10
+   - Description: The number of epochs with no improvement on validation loss after which the learning rate will be reduced by the `--lr_scheduler_factor` .
+
+13. `--weight_decay`:
    - Type: Float
-   - Default: 1e-5
+   - Default: 1e-4
    - Description: The weight decay parameter for the optimizer. It's a regularization technique to prevent overfitting by penalizing large weights. It encourages the program to learn simpler patterns, thereby improving its ability to generalize to new data.
 
-9. `--patience`:
-   - Type: Integer
-   - Default: 5
-   - Description: The number of epochs with no improvement on validation loss after which the training will stop. This is part of the early stopping mechanism to prevent overfitting.
+14. `--early_stop_patience`:
+    - Type: Integer
+    - Default: 20
+    - Description: The number of epochs with no improvement on validation loss after which the training will stop. This is part of the early stopping mechanism to prevent overfitting.
 
-10. `--min_delta`:
+15. `--min_delta`:
     - Type: Float
     - Default: 0.01
-    - Description: The minimum change in validation loss to qualify as an improvement. This is used in conjunction with the `patience` parameter for early stopping. Higher delta values will cause the program to train for longer, while lower values will cause the program to stop earlier.
+    - Description: The minimum change in validation loss to qualify as an improvement. This is used in conjunction with the `patience` parameter for early stopping. Lower delta values will cause the program to train for longer, while higher values will cause the program to stop earlier.
 
-11. `--epochs`:
+16. `--epochs`:
     - Type: Integer
     - Default: 30
     - Description: The maximum number of complete passes through the training dataset. The program will run for a maximum number of epochs, but if learning is not improving, then the early-stopping mechanism will stop the program before this limit is reached.
 
-12. `--max_vocab_size`:
+17. `--max_vocab_size`:
     - Type: Integer
     - Default: 70000
     - Description: The maximum size of the vocabulary. Tokens beyond this size will be mapped to an 'unknown' token. If you wish to use all "words" in your pangenome, then set this value to be larger than the total number of gene families. If you wish to cut off a certain number of low-frequency gene families, then set this vocab to a lower value and it will only use the most frequent gene families up to this limit.
 
-13. `--model_save_path`:
+18. `--model_save_path`:
     - Type: String
     - Default: "model_checkpoint.pth"
     - Description: The path where the model checkpoints will be saved.
 
-14. `--tokenizer_file`:
+19. `--tokenizer_file`:
     - Type: String
     - Default: "pangenome_gpt_tokenizer.json"
     - Description: The filename for saving and loading the tokenizer.
+
+20. `--train_size`:
+    - Type: Float
+    - Default: 0.8
+    - Description: The proportion of the dataset to include in the training set. This value should be between 0 and 1. The remaining data will be split between validation and test sets.
+
+21. `--val_size`:
+    - Type: Float
+    - Default: 0.1
+    - Description: The proportion of the dataset to include in the validation set. This value should be between 0 and 1. The remaining data, after subtracting the training and validation sets, will be used as the test set.
+
+22. `--seed`:
+    - Type: Integer
+    - Default: 42
+    - Description: A number that can be used to seed a random number generator.
+
+23. `--pe_max_len`:
+    - Type: Integer
+    - Default: 5000
+    - Description: The maximum length to be used for positional encoding. This should be at least as long as the max_seq_length command line argument.
+
+24. `--pe_dropout_rate`:
+    - Type: Float
+    - Default: 0.1
+    - Description: The Dropout Rate for positional encoding. This is a regularization technique, preventing the model from depending too much on specific positional information. A proportion of the inputs are set to zero during trainign and this introduces noise that helps prevent the model form overfitting.
+
+25. `--log_dir`:
+    - Type: String
+    - Default: logs
+    - Description: The directory name where the log files are stored for Tensorboard.
+
 
 ---
 
