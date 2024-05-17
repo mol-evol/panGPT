@@ -1,10 +1,10 @@
 
-# README File for panGPT v0.10a and panPrompt v0.01 and supplementary scripts tokenFrequency.py, fixedSplits.py and movingSplits.py
+# README File for panGPT v0.10a and panPrompt v0.01.
 
 
 Developed by: James McInerney
 
-Website: [McInerney Lab](http://mcinerneylab.com/)
+Website: [pangenome.ai](http://pangenome.ai)
 
 Email: panGPTprogram@gmail.com
 
@@ -351,63 +351,14 @@ The trained model is output in pytorch format. The checkpoint files store
 This means that you can restart the training run from the checkpoint file, in those cases where either some error caused the program to stop running, or if you want to extend the run (e.g. run for more epochs, or change parameters for fine tuning).
 
 
-
----
-### Supplementary scripts
-
-I have provided three supplementary scripts that can be used to pre-process your data (`fixedSplits.py` and `movingSplits.py`) or investigate it (`tokenFrequency.py
-`).
-
-In the event that you do not have the computational resources to train a model on complete genomes, you can split the data in two different ways.
-- Either you simply `split` each genome into chunks of fixed length, with each `chunk` being found on a separate line of the input file (this will result in a file of equal size to the original dataset), or
-- you can implement a moving window splitting, where `chunks` of genome are extracted into a new file, the program shifts along by a certain `shift` size and then writes the new `chunk` to file. This second option will produce a larger training dataset.
-
-```bash
-python fixedSplits.py path/to/your/pangenome.txt path/to/fixed_output.txt 512
-```
-This will split each genome in the input dataset into chunks of length `512`. You can chose whatever size you think is best for you.
-
-```bash
-python movingSplits.py path/to/your/pangenome.txt path/to/moving_output.txt 512 256
-```
-In this case the input genomes are split into chunks of `512` gene names, with the chunks of gene names overlapping by `256` gene names.
-
-
-#### tokenFrequency
-You might need to install `matplotlib` and `pandas` if they are not already installed.
-Using conda:
-```bash
-conda install matplotlib pandas
-```
-
-Using pip
-```bash
-pip install matplotlib pandas
-```
-The program simply runs by issuing the command:
-
-```bash
-python tokenFrequency.py
-```
-
-The script begins by reading a pangenome dataset from a text file, where each line in the file represents a sequence of gene families. These gene families are assumed to be space-separated tokens.  It then processes the data to extract individual gene families (tokens) and computes the frequency of each token using Python's `collections.Counter`. This results in a count of how many times each gene family appears in the dataset.
-
-The gene family tokens are then sorted based on their frequency in descending order.
-The program allows the specification of a frequency threshold. It then identifies a cutoff point in the sorted list, which is the number of tokens that occur at least as frequently as this threshold. This can be useful for deciding the size of the vocabulary in further analyses, such as machine learning models where less frequent tokens might be discarded or replaced.
-
-To better understand the token distribution, the program visualizes the frequencies of the top `N` tokens (default is 70,000 or the total number of tokens if less than that) using a bar chart.
-The visualization is done using `matplotlib`, showing each token along the x-axis and its frequency on the y-axis. The x-axis labels (tokens) are rotated for readability.
-
-The program outputs a recommendation for the vocabulary cutoff size based on the frequency threshold. It displays a bar chart showing the frequency distribution of the top tokens.
-
 ---
 
-The Obligatory Disclaimer
+Disclaimer
 This code is provided 'AS IS' without any warranties of any kind, including, but not limited to, its fitness for a particular purpose. The author disclaims all liability for any damages, direct or indirect, resulting from the use of this code.
 
 ---
 
-For more information, visit the [McInerney Lab website](http://mcinerneylab.com/).
+For more information, visit [pangenome.ai](http://pangenome.ai/).
 
 
 #### References:
@@ -415,3 +366,5 @@ For more information, visit the [McInerney Lab website](http://mcinerneylab.com/
 Beavan, A. J. S., et al. (2024). "Contingency, repeatability, and predictability in the evolution of a prokaryotic pangenome." ***Proceedings of the National Academy of Sciences USA*** 121(1): e2304934120.
 
 Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A.N., Kaiser, Ł. and Polosukhin, I., 2017. "Attention is all you need". ***Advances in neural information processing systems***, 30.
+
+Beltagy, I., Peters, M.E. and Cohan, A., 2020. Longformer: The long-document transformer. ***arXiv preprint*** arXiv:2004.05150.
