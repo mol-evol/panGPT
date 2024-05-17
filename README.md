@@ -80,7 +80,7 @@ Ensure that Python (preferably version 3.6 or newer) is installed on your system
 It's recommended to create a virtual environment for `panGPT` to avoid conflicts with existing Python libraries.
 
 ```bash
-python -m venv panAI-env
+python -m venv panAI -env
 ```
 #### Step 2: Activate the virtual environment
 ```bash
